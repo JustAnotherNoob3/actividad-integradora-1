@@ -1,5 +1,7 @@
 import express from 'express'
 import productsRouter from './routes/productsRouter.js';
+import productManager from './dao/Managers/ProductManager.js';
+import cartManager from './dao/Managers/CartManager.js';
 import cartRouter from './routes/cartRouter.js';
 import chatRouter from './routes/chatRouter.js';
 import viewsRouter from './routes/viewsRouter.js';
@@ -14,6 +16,10 @@ const connectMongoDB = async () => {
     try {
         await mongoose.connect(DB_URL)
         console.log("DB connected successfully!");
+        if((await productManager.getProducts()).length == 0){
+            let a = await productManager.createTestProducts()
+            cartManager.createTestCarts(a.map((val) => val.toString()));
+        }
     } catch (err) {
         console.log("DB connection error: ", err);
     }

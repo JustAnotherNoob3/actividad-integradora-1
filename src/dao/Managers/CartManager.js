@@ -45,6 +45,18 @@ class CartManager {
             return 0;
         }
     }
+    async createTestCarts(array){
+        let id = await this.createNewCart();
+        let id2 = await this.createNewCart();
+        for (let index = 0; index < array.length; index++) {
+            const element = array[index];
+            if(index<5){
+                await this.addProductToCart(id, element, index)
+                continue;
+            }
+            await this.addProductToCart(id2, element, index)
+        }
+    }
     async getCartById(cartId) {
         let cart = await cartsModel.findById(cartId);
         if (cart == undefined) {

@@ -5,12 +5,8 @@ import { __dirname } from '../../utils.js';
 
 class ProductManager {
     #path;
-    constructor(path) {
-        console.log("new instance created")
-        this.instance = this;
-        this.#path = path;
-        if (!fs.existsSync(path)) fs.writeFileSync(path, "[]");
-        
+    constructor() {
+        console.log("new instance created");
     }
     async addProduct(product) {
         if (product.thumbnails === undefined) product.thumbnails = [];
@@ -52,17 +48,17 @@ class ProductManager {
         }
         return product;
     }
-    #checkIfValidProductKeys(obj) {
-        let productKeys = Object.keys(obj);
-        if(productKeys.length  != 8) return false;
-        return this.#equalArrays(productKeys, ["title", "description", "code", "price", "status", "stock", "category", "thumbnails"]);
-    }
-    #argumentsHaveFalsyNotZero(arr) {
-        let isFalsy = false;
-        arr.forEach((element) => {
-            if (!element && element !== 0 && element !== false) isFalsy = true;
-        });
-        return isFalsy;
+    async createTestProducts(){
+        return await Promise.all([this.addProduct({title:"Real",description:"dddd",code:"he",price:20,status:true,stock:25,category:"w",thumbnails:["asd.json1","tt.png"]}),
+        this.addProduct({title:"idc",description:"dddd",code:"sadasd",price:20,status:true,stock:25,category:"w",thumbnails:["asd.json1","tt.png"]}),
+        this.addProduct({title:"mewhen",description:"dddd",code:"asdasd",price:20,status:true,stock:25,category:"w",thumbnails:["asd.json1","tt.png"]}),
+        this.addProduct({title:"pluh",description:"dddd",code:"gfg",price:20,status:true,stock:25,category:"w",thumbnails:["asd.json1","tt.png"]}),
+        this.addProduct({title:"heheheh",description:"dddd",code:"xcxc",price:20,status:true,stock:25,category:"w",thumbnails:["asd.json1","tt.png"]}),
+        this.addProduct({title:"asdasd",description:"dddd",code:"aaa",price:4,status:true,stock:1,category:"w",thumbnails:["asd.json1","tt.png"]}),
+        this.addProduct({title:"eh? hehe!",description:"dddd",code:"v",price:20,status:true,stock:25,category:"w",thumbnails:["asd.json1","tt.png"]}),
+        this.addProduct({title:"asdasd",description:"dddd",code:"hehe",price:20,status:true,stock:33,category:"w",thumbnails:["asd.json1","tt.png"]}),
+        this.addProduct({title:"Im going to kms",description:"dddd",code:"bleh",price:20,status:true,stock:11,category:"w",thumbnails:["asd.json1","tt.png"]}),
+        this.addProduct({title:"eeeee",description:"dddd",code:"bruv",price:20,status:true,stock:6,category:"w",thumbnails:[]})]);
     }
     #equalArrays(a, b) {
         if (a.length !== b.length) return false;
@@ -73,7 +69,7 @@ class ProductManager {
     }
 }
 
-const productManager = new ProductManager(__dirname + "/data/productos.json");
+const productManager = new ProductManager();
 
 export default productManager;
 
